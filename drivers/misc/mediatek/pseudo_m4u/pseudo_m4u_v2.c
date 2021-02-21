@@ -3682,7 +3682,7 @@ static int __pseudo_dump_iova_reserved_region(struct device *dev,
 				&base, &max, &owner,
 				&resv_regions);
 	if (domain < 0) {
-		pr_notice("%s, %d, failed to get iova space\n",
+		pr_debug("%s, %d, failed to get iova space\n",
 			  __func__, __LINE__);
 		return domain;
 	}

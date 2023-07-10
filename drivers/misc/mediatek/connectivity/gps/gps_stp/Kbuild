@@ -13,10 +13,6 @@
 # Necessary Check
 ifeq ($(CONFIG_MTK_GPS_SUPPORT), y)
 
-ifneq ($(AUTOCONF_H),)
-    ccflags-y += -imacros $(AUTOCONF_H)
-endif
-
 ifndef TOP
     TOP := $(srctree)/..
 endif

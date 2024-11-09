@@ -533,6 +533,12 @@ config SIMTRAY_STATUS
        help
          Say 'y' here to support SIM tray GPIO detection
 
+config MI_FS
+  bool "Enable Mi fs Driver"
+  default n
+  help
+    MI fs information driver includes cpumaxfreq information
+
 source "drivers/misc/aw8622_haptic/Kconfig"
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"

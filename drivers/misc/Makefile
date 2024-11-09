@@ -3,6 +3,7 @@
 # Makefile for misc devices that really don't fit anywhere else.
 #
 
+obj-$(CONFIG_ANT_CHECK)		+= ant_check.o
 obj-y                           += board_id.o
 obj-$(CONFIG_MI_FS)		+= cpumaxfreq.o
 obj-$(CONFIG_SIMTRAY_STATUS)	+= simtray.o

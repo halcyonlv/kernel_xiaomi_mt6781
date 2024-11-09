@@ -539,6 +539,14 @@ config MI_FS
   help
     MI fs information driver includes cpumaxfreq information
 
+config ANT_CHECK
+	tristate "ant check gpio"
+	help
+	  Say 'y' here to include support for the QTI QPNP MISC
+	  peripheral. The MISC peripheral holds the USB ID interrupt
+	  and the driver provides an API to check if this interrupt
+	  is available on the current PMIC chip.
+
 source "drivers/misc/aw8622_haptic/Kconfig"
 source "drivers/misc/c2port/Kconfig"
 source "drivers/misc/eeprom/Kconfig"

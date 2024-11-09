@@ -249,7 +249,54 @@ int mt_leds_brightness_set(char *name, int level)
 }
 EXPORT_SYMBOL(mt_leds_brightness_set);
 
+extern void led_set_brightness(struct led_classdev *led_cdev, enum led_brightness brightness);
+int mt_leds_brightness_thermal_set(char *name, int brightness)
+{
+	struct mtk_led_data *led_dat = NULL;
+	int index;
+	static int user_brightness = -1;
+	int cur_brightness;
+	int set_brightness;
 
+	index = getLedDespIndex(name);
+	if (index < 0) {
+		pr_notice("%s: can not find leds by led_desp %s\n", __func__, name);
+		return -1;
+	}
+
+	led_dat = container_of(leds_info->leds[index],
+		struct mtk_led_data, desp);
+	if (led_dat == NULL) {
+		pr_notice("%s: led_dat == NULL\n", __func__);
+		return -1;
+	}
+
+	pr_notice("%s: led_dat->last_level:%d, led_dat->brightness:%d, led_dat->conf.level:%d, led_dat->conf.cdev.brightness:%d\n, brightness:%d",
+		__func__, led_dat->last_level, led_dat->brightness, led_dat->conf.level, led_dat->conf.cdev.brightness, brightness);
+
+	if (user_brightness == -1) {
+		user_brightness = led_dat->conf.cdev.brightness;
+	}
+
+	cur_brightness = led_dat->conf.cdev.brightness;
+	if ( (cur_brightness != 2000) &&  (cur_brightness != 1300) && (cur_brightness != 850) ) {
+		user_brightness = cur_brightness;
+	}
+	pr_notice("user_brightness:%d, cur_brightness:%d, line:%d\n", user_brightness, cur_brightness, __LINE__);
+
+	if (brightness < led_dat->conf.cdev.brightness) {
+		led_set_brightness(&led_dat->conf.cdev, brightness);
+		return 1;
+	} else {//brightness > led_dat->conf.cdev.brightness
+		set_brightness = user_brightness > brightness ? brightness:user_brightness;
+		led_set_brightness(&led_dat->conf.cdev, (set_brightness > cur_brightness ? set_brightness:cur_brightness));
+		pr_notice("user_brightness:%d, cur_brightness:%d, set_brightness:%d, line:%d\n", user_brightness, cur_brightness, set_brightness, __LINE__);
+		return 1;
+	}
+
+	return 0;
+}
+EXPORT_SYMBOL(mt_leds_brightness_thermal_set);
 
 static int led_level_set(struct led_classdev *led_cdev,
 					  enum led_brightness brightness)

@@ -929,7 +929,7 @@ int kbase_mem_flags_change(struct kbase_context *kctx, u64 gpu_addr, unsigned in
 	 * & GPU queue ringbuffer and none of them needs to be explicitly marked
 	 * as evictable by Userspace.
 	 */
-	if (kbase_va_region_is_no_user_free(kctx, reg))
+	if (reg->flags & KBASE_REG_NO_USER_FREE)
 		goto out_unlock;
 
 	/* There is no use case to support MEM_FLAGS_CHANGE ioctl for allocations
@@ -1960,9 +1960,9 @@ u64 kbase_mem_alias(struct kbase_context *kctx, u64 *flags, u64 stride,
 			/* validate found region */
 			if (kbase_is_region_invalid_or_free(aliasing_reg))
 				goto bad_handle; /* Not found/already free */
-			if (kbase_is_region_shrinkable(aliasing_reg))
+			if (aliasing_reg->flags & KBASE_REG_DONT_NEED)
 				goto bad_handle; /* Ephemeral region */
-			if (kbase_va_region_is_no_user_free(kctx, aliasing_reg))
+			if (aliasing_reg->flags & KBASE_REG_NO_USER_FREE)
 				goto bad_handle; /* JIT regions can't be
 						  * aliased. NO_USER_FREE flag
 						  * covers the entire lifetime
@@ -2331,12 +2331,8 @@ int kbase_mem_commit(struct kbase_context *kctx, u64 gpu_addr, u64 new_pages)
 
 	if (atomic_read(&reg->cpu_alloc->kernel_mappings) > 0)
 		goto out_unlock;
-
 	/* can't grow regions which are ephemeral */
-	if (kbase_is_region_shrinkable(reg))
-		goto out_unlock;
-
-	if (kbase_va_region_is_no_user_free(kctx, reg))
+	if (reg->flags & KBASE_REG_DONT_NEED)
 		goto out_unlock;
 
 #ifdef CONFIG_MALI_MEMORY_FULLY_BACKED

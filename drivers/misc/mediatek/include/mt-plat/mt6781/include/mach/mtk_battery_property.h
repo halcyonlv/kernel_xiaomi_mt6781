@@ -1,7 +1,15 @@
-/* SPDX-License-Identifier: GPL-2.0 */
 /*
- * Copyright (c) 2019 MediaTek Inc.
-*/
+ * Copyright (C) 2016 MediaTek Inc.
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License version 2 as
+ * published by the Free Software Foundation.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.
+ * See http://www.gnu.org/licenses/gpl-2.0.html for more details.
+ */
 
 #ifndef _MTK_BATTERY_PROPERTY_H
 #define _MTK_BATTERY_PROPERTY_H
@@ -68,7 +76,7 @@
 #define DIFFERENCE_FULL_CV 1000 /*0.01%*/
 #define PSEUDO1_EN 1
 #define PSEUDO100_EN 1
-#define PSEUDO100_EN_DIS 1
+#define PSEUDO100_EN_DIS 0
 
 #define DIFF_SOC_SETTING 50	/* 0.01% */
 #define DIFF_BAT_TEMP_SETTING 1
@@ -92,7 +100,7 @@
 #define CALI_CAR_TUNE_AVG_NUM	60
 
 /* Aging Compensation 1*/
-#define AGING_FACTOR_MIN 75
+#define AGING_FACTOR_MIN 90
 #define AGING_FACTOR_DIFF 10
 #define DIFFERENCE_VOLTAGE_UPDATE 50
 #define AGING_ONE_EN 1
@@ -164,10 +172,9 @@
 #define DIFF_IAVG_TH 3000
 
 /* ZCV INTR */
-#define ZCV_SUSPEND_TIME 7
+#define ZCV_SUSPEND_TIME 3
 #define SLEEP_CURRENT_AVG 200 /*0.1mA*/
-#define ZCV_COM_VOL_LIMIT 50 /* 50mv */
-#define ZCV_CAR_GAP_PERCENTAGE 1
+#define ZCV_CAR_GAP_PERCENTAGE 5
 
 /* Additional battery table */
 #define ADDITIONAL_BATTERY_TABLE_EN 1
@@ -187,7 +194,7 @@
 
 
 #define SHUTDOWN_CONDITION_LOW_BAT_VOLT
-#define LOW_TEMP_DISABLE_LOW_BAT_SHUTDOWN 1
+#define LOW_TEMP_DISABLE_LOW_BAT_SHUTDOWN 0  /*changed for issue HTH-142150, not showdown in low temp. */
 #define LOW_TEMP_THRESHOLD 5
 
 #define BATTERY_TMP_TO_DISABLE_GM30 -50
@@ -234,20 +241,6 @@
 
 #define UI_FULL_LIMIT_TIME 99999
 
-#define UI_FULL_LIMIT_FC_SOC0 9900
-#define UI_FULL_LIMIT_FC_ITH0 3000
-
-#define UI_FULL_LIMIT_FC_SOC1 9900
-#define UI_FULL_LIMIT_FC_ITH1 3100
-
-#define UI_FULL_LIMIT_FC_SOC2 9900
-#define UI_FULL_LIMIT_FC_ITH2 3200
-
-#define UI_FULL_LIMIT_FC_SOC3 9900
-#define UI_FULL_LIMIT_FC_ITH3 3300
-
-#define UI_FULL_LIMIT_FC_SOC4 9900
-#define UI_FULL_LIMIT_FC_ITH4 3400
 
 /* using voltage to limit uisoc in 1% case */
 /* UI_LOW_LIMIT_VTH0=36000 means 3.6v */

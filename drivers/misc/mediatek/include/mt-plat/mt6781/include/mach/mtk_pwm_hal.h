@@ -1,19 +1,32 @@
-/* SPDX-License-Identifier: GPL-2.0 */
-/*
- * Copyright (c) 2019 MediaTek Inc.
-*/
+/******************************************************************************
+ * mtk_pwm_hal.h PWM Drvier
+ *
+ * Copyright (c) 2018, Media Teck.inc
+ *
+ * This program is free software; you can redistribute it and/or modify it
+ * under the terms and conditions of the GNU General Public Licence,
+ * version 2, as publish by the Free Software Foundation.
+ *
+ * This program is distributed and in hope it will be useful, but WITHOUT
+ * ANY WARRNTY; without even the implied warranty of MERCHANTABITLITY or
+ * FITNESS FOR A PARTICULAR PURPOSE. See the GNU General Public License for
+ * more details.
+ *
+ *
+ ******************************************************************************
+ */
 
 #ifndef __MT_PWM_HAL_H__
 #define __MT_PWM_HAL_H__
 #include <linux/types.h>
 #include <mt-plat/sync_write.h>
 /**********************************
-* Global enum data
-***********************************/
+ * Global enum data
+ */
 /******************* Register Manipulations*****************/
 #define INREG32(reg)          __raw_readl((void *)reg)
 #define OUTREG32(reg, val)      mt_reg_sync_writel(val, (void *)reg)
-#define OUTREG32_DMA(reg, val)   ((*(long *)(reg)) = (long)(val))
+#define OUTREG32_DMA(reg, val)	((*(long *)(reg)) = (long)(val))
 #define SETREG32(reg, val)      OUTREG32(reg, INREG32(reg)|(val))
 #define CLRREG32(reg, val)      OUTREG32(reg, INREG32(reg)&~(val))
 #define MASKREG32(x, y, z)  OUTREG32(x, (INREG32(x)&~(y))|(z))
@@ -24,9 +37,6 @@ enum PWN_NO {
 	PWM2,
 	PWM3,
 	PWM4,
-	PWM5,
-	PWM6,
-	PWM7,
 	PWM_NUM,
 	PWM_MAX = PWM_NUM
 };
@@ -98,8 +108,6 @@ enum PWM_INT_ENABLE_BITS {
 	PWM3_INT_UNDERFLOW_EN,
 	PWM4_INT_FINISH_EN,
 	PWM4_INT_UNDERFLOW_EN,
-	PWM5_INT_FINISH_EN,
-	PWM5_INT_UNDERFLOW_EN,
 	PWM_INT_ENABLE_BITS_MAX,
 };
 
@@ -112,8 +120,6 @@ enum PWM_INT_STATUS_BITS {
 	PWM3_INT_UNDERFLOW_ST,
 	PWM4_INT_FINISH_ST,
 	PWM4_INT_UNDERFLOW_ST,
-	PWM5_INT_FINISH_ST,
-	PWM5_INT_UNDERFLOW_ST,
 	PWM_INT_STATUS_BITS_MAX,
 };
 
@@ -126,8 +132,6 @@ enum PWM_INT_ACK_BITS {
 	PWM3_INT_UNDERFLOW_ACK,
 	PWM4_INT_FINISH_ACK,
 	PWM4_INT_UNDERFLOW_ACK,
-	PWM5_INT_FINISH_ACK,
-	PWM5_INT_UNDERFLOW_ACK,
 	PWM_INT_ACK_BITS_MAX,
 };
 
@@ -150,6 +154,14 @@ enum PWM_MODE_ENUM {
 	PWM_MODE_DELAY,
 	PWM_MODE_INVALID,
 };
+
+enum INFRA_CLK_SRC_CTRL {
+	CLK_32K = 0x00,
+	CLK_26M = 0x01,
+	CLK_78M = 0x2,
+	CLK_SEL_TOPCKGEN = 0x3,
+};
+
 #define PWM_NEW_MODE_DUTY_TOTAL_BITS 64
 
 void mt_set_pwm_3dlcm_enable_hal(u8 enable);

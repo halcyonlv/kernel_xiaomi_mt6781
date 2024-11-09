@@ -3,6 +3,7 @@
 # Makefile for misc devices that really don't fit anywhere else.
 #
 
+obj-y                           += board_id.o
 obj-$(CONFIG_MI_FS)		+= cpumaxfreq.o
 obj-$(CONFIG_SIMTRAY_STATUS)	+= simtray.o
 obj-$(CONFIG_AW8622_HAPTIC)     += aw8622_haptic/

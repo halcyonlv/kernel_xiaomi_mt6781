@@ -132,3 +132,6 @@ all.config
 
 # Kdevelop4
 *.kdev4
+
+# Other
+!drivers/input/touchscreen/mediatek/ft3418_i2c/include/firmware/fw_sample.i

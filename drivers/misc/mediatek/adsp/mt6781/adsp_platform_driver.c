@@ -23,6 +23,7 @@
 #include "adsp_platform.h"
 #include "adsp_platform_driver.h"
 #include "adsp_core.h"
+#include "adsp_timesync.h"
 #include "adsp_ipi.h"
 #include "adsp_bus_monitor.h"
 #include "adsp_timesync.h"
@@ -512,19 +513,18 @@ static int adsp_ap_suspend(struct device *dev)
 				__func__, ret, cid);
 		}
 	}
-
-	if (is_adsp_system_running()) {
-		adsp_timesync_suspend(APTIME_FREEZE);
-		pr_info("%s, time sync freeze", __func__);
+    if (is_adsp_system_running()) {
+		adsp_timesync_resume();
+		pr_debug("%s, time sync freeze", __func__);
 	}
 	return 0;
 }
 
 static int adsp_ap_resume(struct device *dev)
 {
-	if (is_adsp_system_running()) {
+    if (is_adsp_system_running()) {
 		adsp_timesync_resume();
-		pr_info("%s, time sync unfreeze", __func__);
+		pr_debug("%s, time sync unfreeze", __func__);
 	}
 	return 0;
 }

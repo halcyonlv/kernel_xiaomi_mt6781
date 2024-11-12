@@ -71,15 +71,6 @@ int gps_emi_mpu_domain_conn = -1;
 #endif
 #endif
 
-#ifdef MTK_GENERIC_HAL
-#define GPS_EMI_NEW_API
-int gps_emi_mpu_region = -1;
-int gps_emi_base_addr_offset = -1;
-int gps_emi_mpu_size = -1;
-int gps_emi_mpu_domain_ap = -1;
-int gps_emi_mpu_domain_conn = -1;
-#define EMI_MPU_PROTECTION_IS_READY  0
-#endif
 int gps_emi_mpu_region_param_ready;
 
 #define GPS_ADC_CAPTURE_BUFF_SIZE   0x50000
@@ -223,10 +214,10 @@ INT32 gps_emi_mpu_set_region_protection(INT32 region)
 {
 #if EMI_MPU_PROTECTION_IS_READY
 #if defined(GPS_EMI_NEW_API)
+        int emimpu_ret1, emimpu_ret2, emimpu_ret3, emimpu_ret4, emimpu_ret5, emimpu_ret6;
 	struct emimpu_region_t region_info;
 	memset((void *)&region_info, 0x0, sizeof(region_info));
 
-	int emimpu_ret1, emimpu_ret2, emimpu_ret3, emimpu_ret4, emimpu_ret5, emimpu_ret6;
 	/* Set EMI MPU permission */
 	GPS_DBG("emi mpu cfg: region = %d, no protection domain = %d, %d",
 	    region, gps_emi_mpu_domain_ap, gps_emi_mpu_domain_conn);

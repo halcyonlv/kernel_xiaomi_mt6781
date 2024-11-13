@@ -66,7 +66,6 @@ obj-$(CONFIG_MTK_COMBO) += common/
 obj-$(CONFIG_MTK_COMBO_WIFI) += wlan/adaptor/
 obj-$(CONFIG_MTK_COMBO_CHIP_CONSYS_6781) += wlan/core/gen4m/
 obj-$(CONFIG_MTK_BTIF) += bt/mt66xx/wmt/
-obj-$(CONFIG_MTK_COMBO_GPS) += gps/gps_pwr/
-obj-$(CONFIG_MTK_COMBO_GPS) += gps/gps_stp/
+obj-$(CONFIG_MTK_COMBO_GPS) += gps/
 obj-$(CONFIG_MTK_COMBO) += connfem/
 endif

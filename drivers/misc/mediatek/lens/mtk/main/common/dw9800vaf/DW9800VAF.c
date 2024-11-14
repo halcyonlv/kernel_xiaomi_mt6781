@@ -12,7 +12,7 @@
  */
 
 /*
- * GT9764AF voice coil motor driver
+ * DW9800VAF voice coil motor driver
  *
  *
  */
@@ -25,7 +25,7 @@
 #include "lens_info.h"
 
 
-#define AF_DRVNAME "GT9764AF_DRV"
+#define AF_DRVNAME "DW9800VAF_DRV"
 #define AF_I2C_SLAVE_ADDR        0x18
 
 #define AF_DEBUG
@@ -76,7 +76,7 @@ static u8 read_data(u8 addr)
 	return get_byte;
 }
 
-static int s4GT9764AF_ReadReg(unsigned short *a_pu2Result)
+static int s4DW9800VAF_ReadReg(unsigned short *a_pu2Result)
 {
 	*a_pu2Result = (read_data(0x03) << 8) + (read_data(0x04) & 0xff);
 
@@ -128,7 +128,7 @@ static int initdrv(void)
 	int i4RetValue = 0;
 	char puSendCmdArray[7][2] = {
 	{0x02, 0x01}, {0x02, 0x00}, {0xFE, 0xFE},
-	{0x02, 0x02}, {0x06, 0x40}, {0x07, 0x6C}, {0xFE, 0xFE},
+	{0x02, 0x02}, {0x06, 0x40}, {0x07, 0x0B}, {0xFE, 0xFE},
 	};
 	unsigned char cmd_number;
 
@@ -167,7 +167,7 @@ static inline int moveAF(unsigned long a_u4Position)
 		unsigned short InitPos;
 
 		initdrv();
-		ret = s4GT9764AF_ReadReg(&InitPos);
+		ret = s4DW9800VAF_ReadReg(&InitPos);
 
 		if (ret == 0) {
 			LOG_INF("Init Pos %6d\n", InitPos);
@@ -224,7 +224,7 @@ static inline int setAFMacro(unsigned long a_u4Position)
 }
 
 /* ////////////////////////////////////////////////////////////// */
-long GT9764AF_Ioctl(struct file *a_pstFile,
+long DW9800VAF_Ioctl(struct file *a_pstFile,
 		unsigned int a_u4Command, unsigned long a_u4Param)
 {
 	long i4RetValue = 0;
@@ -261,7 +261,7 @@ long GT9764AF_Ioctl(struct file *a_pstFile,
 /* 2.Shut down the device on last close. */
 /* 3.Only called once on last time. */
 /* Q1 : Try release multiple times. */
-int GT9764AF_Release(struct inode *a_pstInode, struct file *a_pstFile)
+int DW9800VAF_Release(struct inode *a_pstInode, struct file *a_pstFile)
 {
 	LOG_INF("Start\n");
 	if (*g_pAF_Opened == 2)
@@ -349,7 +349,7 @@ int GT9764AF_Release(struct inode *a_pstInode, struct file *a_pstFile)
 	return 0;
 }
 
-int GT9764AF_SetI2Cclient(struct i2c_client *pstAF_I2Cclient,
+int DW9800VAF_SetI2Cclient(struct i2c_client *pstAF_I2Cclient,
 		spinlock_t *pAF_SpinLock, int *pAF_Opened)
 {
 	g_pstAF_I2Cclient = pstAF_I2Cclient;
@@ -363,7 +363,7 @@ int GT9764AF_SetI2Cclient(struct i2c_client *pstAF_I2Cclient,
 	return 1;
 }
 
-int GT9764AF_GetFileName(unsigned char *pFileName)
+int DW9800VAF_GetFileName(unsigned char *pFileName)
 {
 	#if SUPPORT_GETTING_LENS_FOLDER_NAME
 	char FilePath[256];

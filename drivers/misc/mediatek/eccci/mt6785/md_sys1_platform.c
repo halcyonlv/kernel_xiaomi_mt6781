@@ -52,6 +52,7 @@
 #include "ap_md_reg_dump.h"
 #endif
 #include "modem_secure_base.h"
+#include "hif/ccci_hif_dpmaif.h"
 
 static struct ccci_clk_node clk_table[] = {
 	{ NULL,	"scp-sys-md1-main"},
@@ -906,3 +907,12 @@ int ccci_modem_pm_restore_noirq(struct device *device)
 	return 0;
 }
 
+int ccci_modem_suspend_noirq(struct device *dev)
+{
+	return dpmaif_suspend_noirq(dev);
+}
+
+int ccci_modem_resume_noirq(struct device *dev)
+{
+	return dpmaif_resume_noirq(dev);
+}
